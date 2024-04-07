@@ -15,8 +15,14 @@ const { Header, Sider, Content } = Layout;
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed} className="w-full">
+    <Layout style={{ minHeight: '100vh' }}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        className="w-full"
+        style={{ position: 'fixed', left: 0, height: '100vh', zIndex: 1 }}
+      >
         <div className={styles.logo} />
         <Menu
           theme="dark"
@@ -41,19 +47,24 @@ const AdminLayout = () => {
           ]}
         />
       </Sider>
-      <Layout className={styles.site_layout}>
-        <Header className={styles.site_layout_background} >
+      <Layout className={styles.site_layout} style={{ marginLeft: collapsed ? '80px' : '200px' }}>
+        <Header
+          className={styles.site_layout_background}
+          style={{ position: 'fixed', width: '100%', height: '64px', zIndex: 1 }}
+        >
           {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
             className: 'trigger',
             onClick: () => setCollapsed(!collapsed),
           })}
         </Header>
         <Content
-          className={styles.site_layout_background}
           style={{
-            margin: '24px 16px',
+            margin: '74px 10px',
             padding: 24,
             minHeight: 280,
+            backgroundColor: '#fff',
+
+            height: 'calc(100vh - 64px)',
           }}
         >
           <Outlet />
@@ -62,5 +73,4 @@ const AdminLayout = () => {
     </Layout>
   );
 };
-
 export default AdminLayout;

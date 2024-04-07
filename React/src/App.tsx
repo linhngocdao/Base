@@ -1,7 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { Suspense, lazy } from "react"
-import { Route, Routes } from "react-router-dom"
-import { adminRoutes, clientRoutes } from "./routes"
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query"
+import {Suspense, lazy} from "react"
+import {Route, Routes} from "react-router-dom"
+import {adminRoutes, clientRoutes} from "./routes"
 
 
 const AdminLayout = lazy(() => import('~/layouts/admin'));
@@ -21,47 +21,43 @@ function App() {
   })
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path='/'>
-            <Route element={<ClientLayout />}>
-              <Route index element={<Product />} />
-              {clientRoutes.map((route, index) => {
-                const { path, component: Component } = route;
-                return (
-                  <Route
-                    key={index}
-                    path={path}
-                    element={
-                      <Suspense fallback={<div>Loading ...</div>}>
-                        <Component />
-                      </Suspense>
-                    }
-                  />
-                );
-              })}
-            </Route>
-          </Route>
-          <Route path='admin' element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            {adminRoutes.map((route, index) => {
-              const { path, component: Component } = route;
-              return (
-                <Route
-                  key={index}
-                  path={path}
-                  element={
-                    <Suspense fallback={<div>Loading ...</div>}>
-                      <Component />
-                    </Suspense>
-                  }
-                />
-              )
-            })}
-          </Route>
-        </Routes>
-      </Suspense>
-    </QueryClientProvider >
+      <Routes>
+        <Route path='/' element={<ClientLayout/>}>
+          <Route index element={<Product/>}/>
+          {clientRoutes.map((route, index) => {
+            const {path, component: Component} = route;
+            return (
+              <Route
+                key={index}
+                path={path}
+                element={
+                  <Suspense fallback={<div>Loading ...</div>}>
+                    <Component/>
+                  </Suspense>
+                }
+              />
+            );
+          })}
+        </Route>
+        <Route path='admin' element={<AdminLayout/>}>
+          <Route index element={<Dashboard/>}/>
+          {adminRoutes.map((route, index) => {
+            const {path, component: Component} = route;
+            return (
+              <Route
+                key={index}
+                path={path}
+                element={
+                  <Suspense fallback={<div>Loading ...</div>}>
+                    <Component/>
+                  </Suspense>
+                }
+              />
+            )
+          })}
+        </Route>
+      </Routes>
+    </QueryClientProvider>
   )
 }
 
